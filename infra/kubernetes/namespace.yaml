@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: multitier-app
+  labels:
+    app: multitier
+    environment: production
