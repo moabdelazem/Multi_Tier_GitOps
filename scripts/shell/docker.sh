@@ -1,6 +1,6 @@
 #!/bin/env bash
 
-set -e  
+set -e
 
 COMMIT_HASH=$(git rev-parse --short HEAD)
 IMAGE_NAME="multitier-api"

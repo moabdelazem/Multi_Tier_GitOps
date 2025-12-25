@@ -33,7 +33,7 @@ services:
         restart: unless-stopped
         networks:
             - multi_tier_network
-        
+
     db:
         image: postgres:16-alpine
         ports:
@@ -57,7 +57,14 @@ services:
         image: migrate/migrate
         volumes:
             - ./api/cmd/migrations:/migrations
-        command: ["-path", "/migrations", "-database", "postgres://dummyuser:dummypass@db:5432/multi_tier_db?sslmode=disable", "up"]
+        command:
+            [
+                "-path",
+                "/migrations",
+                "-database",
+                "postgres://dummyuser:dummypass@db:5432/multi_tier_db?sslmode=disable",
+                "up",
+            ]
         depends_on:
             db:
                 condition: service_healthy
