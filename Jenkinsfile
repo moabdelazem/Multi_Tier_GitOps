@@ -49,7 +49,7 @@ pipeline {
         // ---------------------------
         stage('Checkout') {
             steps {
-                echo '📥 Checking out source code...'
+                echo 'Checking out source code...'
                 checkout scm
                 
                 script {
@@ -237,13 +237,15 @@ pipeline {
         always {
             echo 'Cleaning up workspace...'
             
-            // Clean up Docker images to save space
-            sh '''
-                docker image prune -f || true
-            '''
-            
-            // Clean workspace
-            cleanWs(notFailBuild: true)
+            node {
+                // Clean up Docker images to save space
+                sh '''
+                    docker image prune -f || true
+                '''
+                
+                // Clean workspace
+                cleanWs(notFailBuild: true)
+            }
         }
         
         success {
