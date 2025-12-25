@@ -235,41 +235,19 @@ pipeline {
     // ================================
     post {
         always {
-            echo 'Cleaning up workspace...'
-            
-            node {
-                // Clean up Docker images to save space
-                sh '''
-                    docker image prune -f || true
-                '''
-                
-                // Clean workspace
-                cleanWs(notFailBuild: true)
-            }
+            echo 'Cleaning up...'
+            // Clean up Docker images to save space
+            sh 'docker image prune -f || true'
+            // Clean workspace
+            cleanWs(notFailBuild: true)
         }
         
         success {
             echo 'Pipeline completed successfully!'
-            
-            script {
-                // Send success notification (configure as needed)
-                if (env.BRANCH_NAME == 'main' || env.BRANCH_NAME == 'master') {
-                    echo "Main branch build #${BUILD_NUMBER} succeeded!"
-                    // Uncomment to enable Slack notification
-                    // slackSend(color: 'good', message: "Build #${BUILD_NUMBER} succeeded for ${APP_NAME}")
-                }
-            }
         }
         
         failure {
             echo 'Pipeline failed!'
-            
-            script {
-                // Send failure notification
-                echo "Build #${BUILD_NUMBER} failed!"
-                // Uncomment to enable Slack notification
-                // slackSend(color: 'danger', message: "Build #${BUILD_NUMBER} failed for ${APP_NAME}")
-            }
         }
         
         unstable {
